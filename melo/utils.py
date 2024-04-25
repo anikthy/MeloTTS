@@ -10,7 +10,7 @@ import torch
 import torchaudio
 import librosa
 from melo.text import cleaned_text_to_sequence, get_bert
-from melo.text.cleaner import clean_text
+#from melo.text.cleaner import clean_text
 from melo import commons
 
 MATPLOTLIB_FLAG = False
@@ -20,6 +20,10 @@ logger = logging.getLogger(__name__)
 
 
 def get_text_for_tts_infer(text, language_str, hps, device, symbol_to_id=None):
+    if language_str == "KR":
+        from melo.text.cleaner_kr import clean_text
+    else:
+        from melo.text.cleaner import clean_text
     norm_text, phone, tone, word2ph = clean_text(text, language_str)
     phone, tone, language = cleaned_text_to_sequence(phone, tone, language_str, symbol_to_id)
 
